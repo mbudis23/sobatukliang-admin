@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String       @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  email      String       @unique
+  password   String       // disimpan hash (bcrypt/argon2)
+  role       Role         @default(USER)
+  articles   Article[]
+  infografis Infografis[]
+  sessions   Session[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Article {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  imageUrl    String?
+  authorId    String       @db.ObjectId
+  author      User         @relation(fields: [authorId], references: [id])
+  subsections Subsection[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Subsection {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  articleId String      @db.ObjectId
+  article   Article     @relation(fields: [articleId], references: [id])
+  paragraphs Paragraph[]
+  order     Int
+}
+
+model Paragraph {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  content      String
+  subsectionId String     @db.ObjectId
+  subsection   Subsection @relation(fields: [subsectionId], references: [id])
+  order        Int
+}
+
+model Infografis {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  imageUrl    String
+  authorId    String   @db.ObjectId
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model Session {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
