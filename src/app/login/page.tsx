@@ -33,33 +33,37 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-xl font-bold">Login</h1>
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <input
-          placeholder="Email"
-          type="email"
-          required
-          className="border p-2 w-full"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
-        <input
-          placeholder="Password"
-          type="password"
-          required
-          className="border p-2 w-full"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
-        <button
-          type="submit"
-          className="bg-green-500 text-white p-2 rounded w-full"
-        >
-          Login
-        </button>
-      </form>
-      {message && <p className="mt-4 text-sm">{message}</p>}
-    </div>
+    <section className="w-full min-h-screen flex justify-center items-center bg-white px-6 md:px-16 lg:px-[128px] text-blue-950">
+      <div className="w-full max-w-md py-12 px-6 md:px-12 bg-white/40 rounded-[24px] md:rounded-[40px] shadow space-y-6">
+        <h1 className="text-2xl font-bold text-center">Login</h1>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            placeholder="Email"
+            type="email"
+            required
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 bg-white/70"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+          <input
+            placeholder="Password"
+            type="password"
+            required
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 bg-white/70"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+          />
+          <button
+            type="submit"
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 rounded-lg shadow-md transition"
+          >
+            Login
+          </button>
+        </form>
+        {message && (
+          <p className="mt-4 text-sm text-center text-gray-700">{message}</p>
+        )}
+      </div>
+    </section>
   );
 }
