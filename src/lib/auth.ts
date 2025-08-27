@@ -1,4 +1,5 @@
 import { prisma } from "./prisma";
+// import jwt from "jsonwebtoken";
 const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
